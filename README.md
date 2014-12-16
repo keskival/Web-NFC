@@ -6,6 +6,8 @@ NFC chips with a phone.
 This sample project was bootstrapped by using the following command:
 phonegap create Web-NFC
 
+The WTFPL license applies to all parts not specifically licensed otherwise.
+
 # Requirements #
 
 You'll also need Android SDK:
