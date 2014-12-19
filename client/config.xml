@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="fi.neter.web-nfc" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Web NFC</name>
+<widget id="fi.neter.Web-NFC" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Web-NFC</name>
     <description>
-        A sample PoC Phonegap web application that reads and writes NFC tags.
+        Hello World sample application that responds to the deviceready event.
     </description>
-    <author email="tero.keski-valkama@neter.fi" href="http://neter.fi">
-        Tero Keski-Valkama, Neter
+    <author email="support@phonegap.com" href="http://phonegap.com">
+        PhoneGap Team
     </author>
     <content src="index.html" />
     <preference name="permissions" value="none" />
@@ -42,7 +42,6 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
-    <gap:plugin name="com.chariotsolutions.nfc.plugin.NfcPlugin"/>
     <icon src="icon.png" />
     <icon gap:platform="android" gap:qualifier="ldpi" src="www/res/icon/android/icon-36-ldpi.png" />
     <icon gap:platform="android" gap:qualifier="mdpi" src="www/res/icon/android/icon-48-mdpi.png" />

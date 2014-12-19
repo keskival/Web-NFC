@@ -3,11 +3,12 @@
 This is a sample Phonegap web application demonstrating reading and writing
 NFC chips with a phone.
 
-This sample project was bootstrapped by using the following command:
-phonegap create Web-NFC
-
-Android platform was added by using the command:
+This sample project was bootstrapped by using the following commands:
+phonegap create Web-NFC fi.neter.Web-NFC Web-NFC
+mv Web-NFC client
+cd client
 phonegap platform add android
+phonegap plugin add https://github.com/chariotsolutions/phonegap-nfc.git
 
 The WTFPL license applies to all parts not specifically licensed otherwise.
 
