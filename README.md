@@ -22,11 +22,20 @@ Also add it to path and ANDROID_HOME:
 export PATH=$PATH:/opt/android-sdk-linux/utils
 export ANDROID_HOME=/opt/android-sdk-linux
 
+Run android command and install Android SDK Build-tools version 19.
+Install also the Android 4.4.2 (API 19) packages.
+
+You'll also need ant and maven.
+
 You'll also need Tomcat:
 sudo apt-get install tomcat7
 
 You also might like SprintSource STS:
 http://spring.io/tools/sts/all
+
+If you want to run the application in an SDK emulator,
+create an emulator image first:
+android create avd --name emu -t 1 --abi default/x86
 
 # Web NFC Standard #
 There is a draft W3C standard for NFC for web applications:
@@ -39,6 +48,14 @@ html/test-web-nfc-standard.html
 It has been tested _not_ to work with Android 4.4.3,
 mobile Chrome 39.0.2171.93,
 mobile Firefox 34.0.
+
+# Build #
+
+You should add platform android by using the command:
+phonegap platform add android
+
+You can build the apk file in the client directory with the command:
+phonegap build
 
 # Notes #
 
