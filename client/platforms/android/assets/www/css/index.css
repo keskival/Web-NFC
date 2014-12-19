@@ -1,0 +1,7 @@
+.app.listening {
+    display:block;
+}
+
+.app.received {
+    display:none;
+}
