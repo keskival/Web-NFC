@@ -6,6 +6,9 @@ NFC chips with a phone.
 This sample project was bootstrapped by using the following command:
 phonegap create Web-NFC
 
+Android platform was added by using the command:
+phonegap platform add android
+
 The WTFPL license applies to all parts not specifically licensed otherwise.
 
 The client directory contains the mobile Phonegap client application.
@@ -51,11 +54,13 @@ mobile Firefox 34.0.
 
 # Build #
 
-You should add platform android by using the command:
-phonegap platform add android
-
 You can build the apk file in the client directory with the command:
 phonegap build
+
+The built client application will reside in:
+platforms/android/ant-build/CordovaApp-debug.apk
+
+Copy that to your Android mobile device with NFC support and install it.
 
 # Notes #
 
