@@ -57,7 +57,7 @@
 
             // The example payload is in "id" JSON element.
             var payload = data.id;
-            var message = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
+            var message = ndef.textRecord(payload);
 
             nfc.write(
               [message],
