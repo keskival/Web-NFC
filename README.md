@@ -107,6 +107,7 @@ as you scan the tag.
 The application has been throughly tested on a HTC One, Android version 4.4.3.
 
 Remember to change the serverAddress in both the client and the server before building and installing.
+The locations for the server address are client/www/index.html and server/src/main/webapp/index.html
 
 The installed mobile application can be found from the menu with the name Web-NFC.
 
