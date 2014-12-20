@@ -2,83 +2,81 @@
 <html>
   <body>
     <div id="app">
-      <p id="waiting" style="display: block;">Connecting to Device</p>
-      <p id="ok" style="display: none;">Device is Ready</p>
-      <p id="readNFC" style="display: none;">Read NFC tag</p>
+      <div id="deviceState" style="border: 1px solid black;">
+          <p id="waiting" style="display: block; color: yellow;">Connecting to Device</p>
+          <p id="ok" style="display: none; color: green;">Device is Ready</p>
+      </div>
       <p id="output">Waiting NFC tag...</p>
-      <p id="debug"></p>
     </div>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">
-    var debugElement = document.getElementById('debug');
-    var waitingElement = document.getElementById('waiting');
-    var okElement = document.getElementById('ok');
-    var outputElement = document.getElementById('output');
-    var readNFCIndicatorElement = document.getElementById('readNFC');
+    
+      // Note: Change this to your environment.
+      var serverAddress = "http://192.168.0.137:8080";
+    
+      var waitingElement = document.getElementById('waiting');
+      var okElement = document.getElementById('ok');
+      var outputElement = document.getElementById('output');
 
-    var app = {
+      var app = {
         initialize: function() {
-            debugElement.innerHTML = debugElement.innerHTML + 'Initializing...<br/>';
-            document.addEventListener('deviceready', app.onDeviceReady, false);
-            debugElement.innerHTML = debugElement.innerHTML + 'Initialized.<br/>';
-        },
-        onDeviceReady: function() {
-            debugElement.innerHTML = debugElement.innerHTML + 'onDeviceReady.<br/>';
-            waitingElement.setAttribute('style', 'display: none;');
-            okElement.setAttribute('style', 'display: block;');
+          console.log('onDeviceReady.');
+          waitingElement.setAttribute('style', 'display: none;');
+          okElement.setAttribute('style', 'display: block;');
 
-            nfc.addNdefListener(app.onReadNdefTag, app.win, app.fail);
+          nfc.addNdefListener(app.onReadNdefTag, app.win, app.fail);
 
-            debugElement.innerHTML = debugElement.innerHTML + 'onDeviceReady done.<br/>';
+          console.log('onDeviceReady done.');
         },
         onReadNdefTag: function(nfcEvent) {
-            var tag = nfcEvent.tag,
-                ndefMessage = tag.ndefMessage,
-                content;
-            debugElement.innerHTML = debugElement.innerHTML + 'onReadNdefTag...<br/>';
-            outputElement.innerHTML = "Tag: " + JSON.stringify(tag);
-            outputElement.innerHTML = outputElement.innerHTML + "Msg: " + JSON.stringify(ndefMessage);
+          var tag = nfcEvent.tag,
+            ndefMessage = tag.ndefMessage,
+            content;
+          console.log('onReadNdefTag...');
+          console.log('Read tag: ' + JSON.stringify(tag));
+          if (!ndefMessage) {
+            outputElement.innerHTML = "Read tag with no content: " + JSON.stringify(tag);
+            content = "N/A";
+          } else {
             content = nfc.bytesToString(ndefMessage[0].payload).substring(3);
-            outputElement.innerHTML = outputElement.innerHTML + "Read NFC tag with contents: " + JSON.stringify(ndefMessage) + ", payload: " +
-                content;
-            readNFCIndicatorElement.setAttribute('style', 'display: block;');
-            debugElement.innerHTML = debugElement.innerHTML + 'NDEF tag read.<br/>';
-            var request = {
-                    type: "POST",
-                    dataType: "json",
-                    url: "http://192.168.0.137:8080/Web-NFC_server-1.0.0-SNAPSHOT/notifyNFC",
-                    data: "content=" + content,
-                    success: function(data) {
-                        debugElement.innerHTML = debugElement.innerHTML + 'REST call success: ' + JSON.stringify(data) + '<br/>';
-                    }
-            };
-            debugElement.innerHTML = debugElement.innerHTML + 'Doing REST call:' + JSON.stringify(request) + '<br/>';
-            jQuery.ajax(request)
-            .done(function(data) {
-               debugElement.innerHTML = debugElement.innerHTML + 'REST call done: ' + JSON.stringify(data) + '<br/>';
-               var mimeType = "text/plain";
-               var payload = data.id;
-               var message = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
+            outputElement.innerHTML = "Read NFC tag: " + content;
+          }
 
-               nfc.write(
-                   [message],
-                   function () {
-                       debugElement.innerHTML = debugElement.innerHTML + 'Writing success.<br/>';
-                   },
-                   function (reason) {
-                       debugElement.innerHTML = debugElement.innerHTML + 'Writing failed: ' + JSON.stringify(reason) + '<br/>';
-                   }
-               );
-            }).fail(function(err) {
-               debugElement.innerHTML = debugElement.innerHTML + 'REST call error: ' + JSON.stringify(err) + '<br/>';
-            });
-        },
-        win: function() {
+          // Sending notification to the server.
+          var request = {
+            type: "POST",
+            dataType: "json",
+            url: serverAddress + "/Web-NFC_server-1.0.0-SNAPSHOT/notifyNFC",
+            data: "content=" + content
+          };
+
+          console.log('Doing REST call: ' + JSON.stringify(request));
+          jQuery.ajax(request).done(function(data) {
+            console.log('REST call done: ' + JSON.stringify(data));
+            var mimeType = "text/plain";
+
+            // The example payload is in "id" JSON element.
+            var payload = data.id;
+            var message = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
+
+            nfc.write(
+              [message],
+              function () {
+                outputElement.innerHTML = outputElement.innerHTML + "<br/>Wrote value to NFC tag: " + payload;
+                console.log('Writing success.');
+              },
+              function (reason) {
+                console.log('Writing failed: ' + JSON.stringify(reason));
+              }
+            );
+          }).fail(function(reason) {
+            console.log('REST call error: ' + JSON.stringify(reason));
+          });
         },
         fail: function(reason) {
-            debugElement.innerHTML = debugElement.innerHTML + 'fail: ' + JSON.stringify(reason);
+          console.log('Failed to register as a listener for NFC events: ' + JSON.stringify(reason));
         }
-    };
+      };
       app.initialize();
     </script>
   </body>

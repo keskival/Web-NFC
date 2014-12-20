@@ -2,7 +2,6 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
     <script type="text/javascript" src="cordova.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
@@ -10,14 +9,13 @@
   </head>
   <body>
     <p>The web application will be loaded below:</p>
-    <div id="application">Loading...</div>
-    <div id="debug">Debug</div>
+    <div id="application" style="border: 1px dashed grey">Loading...</div>
     <script type="text/javascript">
+      // Note: Change this to your environment.
+      var serverAddress = 'http://192.168.0.137:8080';
+
       document.addEventListener('deviceready', function() {
-        document.getElementById('debug').innerHTML = "Does not work.";
-        jQuery('#debug').html("JQuery Works.");
-        // window.location = "http://192.168.0.137:8080/Web-NFC_server-0.0.1-SNAPSHOT/";
-        jQuery('#application').load('http://192.168.0.137:8080/Web-NFC_server-1.0.0-SNAPSHOT/');
+        jQuery('#application').load(serverAddress + '/Web-NFC_server-1.0.0-SNAPSHOT/');
       }, false);
     </script>
   </body>
