@@ -140,3 +140,8 @@ write your NFC chips (remotely) and possibly cause trouble.
 
 For large projects you might want to switch to TypeScript and for example angular.js.
 Communications between the client and the server can be done bidirectionally with socket.io for example.
+
+The NFC reader actually ignores the three byte header from the NFC record, but
+the writer does not encode such a header currently. For this reason, the word
+"NFC" is missing from the screenshot above in the read tag contents. This is
+considered a feature, not a bug.
