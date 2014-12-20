@@ -10,18 +10,14 @@
   </description>
   <servlet>
     <servlet-name>dispatcher</servlet-name>
-    <servlet-class>
-      org.springframework.web.servlet.DispatcherServlet
-    </servlet-class>
-    <init-param>
-      <param-name>contextConfigLocation</param-name>
-      <param-value>/WEB-INF/spring/dispatcher-config.xml</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>2</load-on-startup>
   </servlet>
-
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>
-    <url-pattern>/</url-pattern>
+    <url-pattern>/notifyNFC</url-pattern>
   </servlet-mapping>
- </web-app>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+</web-app>
