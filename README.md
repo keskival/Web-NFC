@@ -46,12 +46,10 @@ Run android command and install Android SDK Build-tools version 19.
 
 Install also the Android 4.4.2 (API 19) packages.
 
-You'll also need ant and maven.
-
-You'll also need Tomcat:
+You'll also need ant, maven, and Tomcat:
 
 ```
-sudo apt-get install tomcat7
+sudo apt-get install ant maven tomcat7
 ```
 
 You also might like SprintSource STS: http://spring.io/tools/sts/all
