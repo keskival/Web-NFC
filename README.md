@@ -1,7 +1,14 @@
 # Summary #
 
-This is a sample Phonegap web application demonstrating reading and writing
+This is a sample PhoneGap web application demonstrating reading and writing
 NFC chips with a phone.
+
+The WTFPL license applies to all parts not specifically licensed otherwise.
+
+The client directory contains the mobile PhoneGap client application.
+The server directory contains the JavaEE server.
+
+## Client ##
 
 This sample project was bootstrapped by using the following commands:
 phonegap create Web-NFC fi.neter.Web-NFC Web-NFC
@@ -10,10 +17,10 @@ cd client
 phonegap platform add android
 phonegap plugin add https://github.com/chariotsolutions/phonegap-nfc.git
 
-The WTFPL license applies to all parts not specifically licensed otherwise.
+## Server ##
 
-The client directory contains the mobile Phonegap client application.
-The server directory contains the JavaEE server.
+The server application is a simple Spring WAR for Tomcat for serving the PhoneGap application and
+for providing the backend side for receiving and sending NFC tag content.
 
 # Requirements #
 
@@ -67,6 +74,6 @@ Copy that to your Android mobile device with NFC support and install it.
 
 When developing web NFC applications, you should make sure that the connection
 between the client and the server is secure, and that the client cannot connect
-to arbitrary web sites through Phonegap whitelisting or other similar security
+to arbitrary web sites through PhoneGap whitelisting or other similar security
 methods and also TLS. Otherwise an arbitrary man-in-the-middle can read and
 write your NFC chips (remotely) and cause trouble.
