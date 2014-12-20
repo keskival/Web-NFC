@@ -102,6 +102,12 @@ Then copy target/Web-NFC_server-1.0.0-SNAPSHOT.war to /var/lib/tomcat7/webapps/.
 
 # Usage #
 
+The application reads an NFC tag, signals the content to the server, and gets
+a random tag id back to write back to the tag. This is repeated as many times
+as you scan the tag.
+
+The application has been throughly tested on a HTC One, Android version 4.4.3.
+
 Remember to change the serverAddress in both the client and the server before building and installing.
 
 The installed mobile application can be found from the menu with the name Web-NFC.
