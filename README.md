@@ -79,6 +79,8 @@ mobile Firefox 34.0.
 
 # Build #
 
+Note that you'll need to configure the IP address to your Tomcat server currently hardcoded in the client and the server.
+
 ## Client ##
 
 You can build the apk file in the client directory with the command:
@@ -90,6 +92,14 @@ The built client application will reside in:
 client/platforms/android/ant-build/CordovaApp-debug.apk
 
 Copy that to your Android mobile device with NFC support and install it.
+
+## Server ##
+
+Just run:
+
+mvn package
+
+Then copy target/Web-NFC_server-1.0.0-SNAPSHOT.war to /var/lib/tomcat7/webapps/.
 
 # Notes #
 

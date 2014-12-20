@@ -18,29 +18,60 @@
 
     var app = {
         initialize: function() {
-            debugElement.innerHTML = debugElement.innerHTML + 'Initializing...\n';
+            debugElement.innerHTML = debugElement.innerHTML + 'Initializing...<br/>';
             document.addEventListener('deviceready', app.onDeviceReady, false);
-            debugElement.innerHTML = debugElement.innerHTML + 'Initialized.\n';
+            debugElement.innerHTML = debugElement.innerHTML + 'Initialized.<br/>';
         },
         onDeviceReady: function() {
-            debugElement.innerHTML = debugElement.innerHTML + 'onDeviceReady.\n';
+            debugElement.innerHTML = debugElement.innerHTML + 'onDeviceReady.<br/>';
             waitingElement.setAttribute('style', 'display: none;');
             okElement.setAttribute('style', 'display: block;');
 
             nfc.addNdefListener(app.onReadNdefTag, app.win, app.fail);
 
-            debugElement.innerHTML = debugElement.innerHTML + 'onDeviceReady done.\n';
+            debugElement.innerHTML = debugElement.innerHTML + 'onDeviceReady done.<br/>';
         },
         onReadNdefTag: function(nfcEvent) {
             var tag = nfcEvent.tag,
-                ndefMessage = tag.ndefMessage;
-            debugElement.innerHTML = debugElement.innerHTML + 'onReadNdefTag...\n';
+                ndefMessage = tag.ndefMessage,
+                content;
+            debugElement.innerHTML = debugElement.innerHTML + 'onReadNdefTag...<br/>';
             outputElement.innerHTML = "Tag: " + JSON.stringify(tag);
             outputElement.innerHTML = outputElement.innerHTML + "Msg: " + JSON.stringify(ndefMessage);
+            content = nfc.bytesToString(ndefMessage[0].payload).substring(3);
             outputElement.innerHTML = outputElement.innerHTML + "Read NFC tag with contents: " + JSON.stringify(ndefMessage) + ", payload: " +
-                nfc.bytesToString(ndefMessage[0].payload).substring(3);
+                content;
             readNFCIndicatorElement.setAttribute('style', 'display: block;');
-            debugElement.innerHTML = debugElement.innerHTML + 'NDEF tag read.\n';
+            debugElement.innerHTML = debugElement.innerHTML + 'NDEF tag read.<br/>';
+            var request = {
+                    type: "POST",
+                    dataType: "json",
+                    url: "http://192.168.0.137:8080/Web-NFC_server-1.0.0-SNAPSHOT/notifyNFC",
+                    data: "content=" + content,
+                    success: function(data) {
+                        debugElement.innerHTML = debugElement.innerHTML + 'REST call success: ' + JSON.stringify(data) + '<br/>';
+                    }
+            };
+            debugElement.innerHTML = debugElement.innerHTML + 'Doing REST call:' + JSON.stringify(request) + '<br/>';
+            jQuery.ajax(request)
+            .done(function(data) {
+               debugElement.innerHTML = debugElement.innerHTML + 'REST call done: ' + JSON.stringify(data) + '<br/>';
+               var mimeType = "text/plain";
+               var payload = data.id;
+               var message = ndef.mimeMediaRecord(mimeType, nfc.stringToBytes(payload));
+
+               nfc.write(
+                   [message],
+                   function () {
+                       debugElement.innerHTML = debugElement.innerHTML + 'Writing success.<br/>';
+                   },
+                   function (reason) {
+                       debugElement.innerHTML = debugElement.innerHTML + 'Writing failed: ' + JSON.stringify(reason) + '<br/>';
+                   }
+               );
+            }).fail(function(err) {
+               debugElement.innerHTML = debugElement.innerHTML + 'REST call error: ' + JSON.stringify(err) + '<br/>';
+            });
         },
         win: function() {
         },

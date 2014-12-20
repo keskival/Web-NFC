@@ -4,23 +4,28 @@ import java.util.Random;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Controller
 public class RestController {
 	public static Random random = new Random();
-	
+
     /**
      * Logs the given NFC content to console and returns a suggested random content to write back.
      * @param content
      * @return
      */
-	@RequestMapping("/notifyNFC")
+	@RequestMapping(value = "/notifyNFC", method = RequestMethod.POST)
 	@ResponseBody
-	public String notifyNFC(String content) {
+	public ObjectNode notifyNFC(String content) {
+		ObjectNode node = JsonNodeFactory.instance.objectNode();
 		System.out.println("Received NFC: " + content + "\n");
     	Integer randomInteger = random.nextInt();
-    	String result = "NFC ID: " + randomInteger;
-    	return result;
+    	node.put("id", "NFC ID: " + randomInteger);
+    	return node;
     }
 }
