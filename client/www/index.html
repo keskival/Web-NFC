@@ -3,21 +3,21 @@
   <head>
     <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
     <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <script type="text/javascript" src="cordova.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script>jQuery.noConflict();</script>
   </head>
   <body>
-    <div id="app">
-      <p id="waiting">Connecting to Device</p>
-      <p id="ok">Device is Ready</p>
-      <p id="readNFC">Read NFC tag</p>
-      <p id="output">Waiting NFC tag...</p>
-      <p id="debug"></p>
-    </div>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
+    <p>The web application will be loaded below:</p>
+    <div id="application">Loading...</div>
+    <div id="debug">Debug</div>
     <script type="text/javascript">
-      app.initialize();
+      document.addEventListener('deviceready', function() {
+        document.getElementById('debug').innerHTML = "Does not work.";
+        jQuery('#debug').html("JQuery Works.");
+        jQuery('#application').load('//192.168.0.137:8080/Web-NFC_server-0.0.1-SNAPSHOT/');
+      }, false);
     </script>
   </body>
 </html>
