@@ -1,22 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-  </head>
   <body>
     <div id="app">
-      <p id="waiting">Connecting to Device</p>
-      <p id="ok">Device is Ready</p>
-      <p id="readNFC">Read NFC tag</p>
+      <p id="waiting" style="display: block;">Connecting to Device</p>
+      <p id="ok" style="display: none;">Device is Ready</p>
+      <p id="readNFC" style="display: none;">Read NFC tag</p>
       <p id="output">Waiting NFC tag...</p>
       <p id="debug"></p>
     </div>
-    <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">
+    var debugElement = document.getElementById('debug');
+    var waitingElement = document.getElementById('waiting');
+    var okElement = document.getElementById('ok');
+    var outputElement = document.getElementById('output');
+    var readNFCIndicatorElement = document.getElementById('readNFC');
+
+    var app = {
+        initialize: function() {
+            debugElement.innerHTML = debugElement.innerHTML + 'Initializing...\n';
+            document.addEventListener('deviceready', app.onDeviceReady, false);
+            debugElement.innerHTML = debugElement.innerHTML + 'Initialized.\n';
+        },
+        onDeviceReady: function() {
+            debugElement.innerHTML = debugElement.innerHTML + 'onDeviceReady.\n';
+            waitingElement.setAttribute('style', 'display: none;');
+            okElement.setAttribute('style', 'display: block;');
+
+            nfc.addNdefListener(app.onReadNdefTag, app.win, app.fail);
+
+            debugElement.innerHTML = debugElement.innerHTML + 'onDeviceReady done.\n';
+        },
+        onReadNdefTag: function(nfcEvent) {
+            var tag = nfcEvent.tag,
+                ndefMessage = tag.ndefMessage;
+            debugElement.innerHTML = debugElement.innerHTML + 'onReadNdefTag...\n';
+            outputElement.innerHTML = "Tag: " + JSON.stringify(tag);
+            outputElement.innerHTML = outputElement.innerHTML + "Msg: " + JSON.stringify(ndefMessage);
+            outputElement.innerHTML = outputElement.innerHTML + "Read NFC tag with contents: " + JSON.stringify(ndefMessage) + ", payload: " +
+                nfc.bytesToString(ndefMessage[0].payload).substring(3);
+            readNFCIndicatorElement.setAttribute('style', 'display: block;');
+            debugElement.innerHTML = debugElement.innerHTML + 'NDEF tag read.\n';
+        },
+        win: function() {
+        },
+        fail: function(reason) {
+            debugElement.innerHTML = debugElement.innerHTML + 'fail: ' + JSON.stringify(reason);
+        }
+    };
       app.initialize();
     </script>
   </body>

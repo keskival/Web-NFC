@@ -24,6 +24,9 @@ public class CORSFilter extends OncePerRequestFilter {
             response.addHeader("Access-Control-Allow-Headers", "Content-Type");
             response.addHeader("Access-Control-Max-Age", "1");
         }
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
         filterChain.doFilter(request, response);
     }
 }

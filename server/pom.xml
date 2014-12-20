@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>fi.neter</groupId>
   <artifactId>Web-NFC_server</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>Web NFC PhoneGap PoC</name>
   <url>http://neter.fi</url>
