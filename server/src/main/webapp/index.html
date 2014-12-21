@@ -22,7 +22,7 @@
         initialize: function() {
           console.log('onDeviceReady.');
           waitingElement.setAttribute('style', 'display: none;');
-          okElement.setAttribute('style', 'display: block;');
+          okElement.setAttribute('style', 'display: block; color: green;');
 
           nfc.addNdefListener(app.onReadNdefTag, app.win, app.fail);
 
