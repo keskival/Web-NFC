@@ -38,7 +38,7 @@ sudo chown -R YOURUSER /opt/android-sdk-linux
 Also add it to path and ANDROID_HOME:
 
 ```
-export PATH=$PATH:/opt/android-sdk-linux/utils
+export PATH=$PATH:/opt/android-sdk-linux/tools
 export ANDROID_HOME=/opt/android-sdk-linux
 ```
 
